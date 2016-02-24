@@ -6,10 +6,10 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var database = require('./config/database');
-
-mongoose.connect(database.url);
+var port = process.env.PORT || 8080   //Port app listens to
 
 // Config
+mongoose.connect(database.url);
 
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
@@ -22,12 +22,9 @@ app.use(bodyParser.json({
 }));
 app.use(methodOverride());
 
-
-
-
-
-
+// Routes
+require('./app/routes')(app);
 
 // Listen
-app.listen(1338);
-console.log("App listening on port 1338")
+app.listen(port);
+console.log("App listening on port" + port)
